@@ -23,7 +23,7 @@
   "errorReportSMTPServer": "",
   "errorReportToEmail": "",
   "errorReportUsername": "",
-  "homepageNotes": "Welcome to your Ignition Gateway. This customizable area is intended to capture the critical details you want to document for this Gateway. You might include information about the environment (production, testing, or development), key workflows, or maintenance schedules. It\u0027s also a great place to list instructions for your team, important reminders about system health, or details about your configuration that require regular review. Use this space to keep everyone informed and ensure smooth operations across the board.",
+  "homepageNotes": "Ignition Blue",
   "homepageUrl": "/web/home",
   "multicastEnabled": true,
   "multicastIPAddr": "231.1.1.1",
@@ -37,6 +37,6 @@
   "scheduledBackupsEnabled": false,
   "scriptMessageEncoding": "Protobuf",
   "secondsBeforeFailover": 60,
-  "systemName": "project-name",
+  "systemName": "ignition-blue",
   "useCondensedDialogFont": false
 }

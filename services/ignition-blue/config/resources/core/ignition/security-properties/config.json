@@ -1,6 +1,16 @@
 {
   "accessPermissions": {
-    "securityLevels": [],
+    "securityLevels": [
+      {
+        "children": [],
+        "description": "Represents a user who has been authenticated by the system.",
+        "name": "Authenticated"
+      },
+      {
+        "children": [],
+        "name": "apiKeys"
+      }
+    ],
     "type": "AnyOf"
   },
   "allowDesignerSSO": false,
@@ -34,16 +44,35 @@
   },
   "designerRoleName": "Administrator",
   "forceIdpAuth": true,
-  "gatewayAuditProfile": "",
   "readPermissions": {
-    "securityLevels": [],
+    "securityLevels": [
+      {
+        "children": [],
+        "description": "Represents a user who has been authenticated by the system.",
+        "name": "Authenticated"
+      },
+      {
+        "children": [],
+        "name": "apiKeys"
+      }
+    ],
     "type": "AnyOf"
   },
   "systemAuthProfile": "default",
   "systemIdentityProvider": "default",
   "userInactivityTimeout": 10,
   "writePermissions": {
-    "securityLevels": [],
+    "securityLevels": [
+      {
+        "children": [],
+        "description": "Represents a user who has been authenticated by the system.",
+        "name": "Authenticated"
+      },
+      {
+        "children": [],
+        "name": "apiKeys"
+      }
+    ],
     "type": "AnyOf"
   }
 }

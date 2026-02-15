@@ -23,7 +23,7 @@
   "errorReportSMTPServer": "",
   "errorReportToEmail": "",
   "errorReportUsername": "",
-  "homepageNotes": "Ignition Red",
+  "homepageNotes": "Ignition Blue - Dev",
   "homepageUrl": "/web/home",
   "multicastEnabled": true,
   "multicastIPAddr": "231.1.1.1",
@@ -37,6 +37,6 @@
   "scheduledBackupsEnabled": false,
   "scriptMessageEncoding": "Protobuf",
   "secondsBeforeFailover": 60,
-  "systemName": "ignition-red",
+  "systemName": "ignition-blue",
   "useCondensedDialogFont": false
 }
