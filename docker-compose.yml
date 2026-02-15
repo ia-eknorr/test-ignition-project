@@ -22,7 +22,7 @@ services:
       - ./scripts/docker-bootstrap.sh:/docker-bootstrap.sh
       # Ignition data volumes to be seeded
       - ignition-blue-data:/seed/ignition-blue
-      - ignition-green-data:/seed/ignition-green
+      - ignition-red-data:/seed/ignition-red
 
   ignition-blue:
     <<: [*ignition-common]
@@ -30,9 +30,11 @@ services:
     hostname: ignition-blue
     volumes:
       - ignition-blue-data:/usr/local/bin/ignition/data
-      - ./services/ignition/projects:/usr/local/bin/ignition/data/projects
-      - ./services/ignition/config/resources/core:/usr/local/bin/ignition/data/config/resources/core
-      - ./services/ignition/config/resources/dev:/usr/local/bin/ignition/data/config/resources/dev
+      - ./services/ignition-blue/projects:/usr/local/bin/ignition/data/projects
+      - ./services/ignition-blue/config/resources/core:/usr/local/bin/ignition/data/config/resources/core
+      - ./services/ignition-blue/config/resources/dev:/usr/local/bin/ignition/data/config/resources/dev
+      - ./shared/files/factory.json:/usr/local/bin/ignition/data/config/factory.json
+      - ./shared/config/resources/external:/usr/local/bin/ignition/data/config/resources/external
     environment:
       <<: *ignition-environment
     labels:
@@ -48,26 +50,28 @@ services:
       gateway.useProxyForwardedHeader=true
       -Dignition.config.mode=${DEPLOYMENT_MODE:-dev}
 
-  ignition-green:
+  ignition-red:
     <<: [*ignition-common]
-    container_name: ignition-green
-    hostname: ignition-green
+    container_name: ignition-red
+    hostname: ignition-red
     volumes:
-      - ignition-green-data:/usr/local/bin/ignition/data
-      - ./services/ignition/projects:/usr/local/bin/ignition/data/projects
-      - ./services/ignition/config/resources/core:/usr/local/bin/ignition/data/config/resources/core
-      - ./services/ignition/config/resources/dev:/usr/local/bin/ignition/data/config/resources/dev
+      - ignition-red-data:/usr/local/bin/ignition/data
+      - ./services/ignition-red/projects:/usr/local/bin/ignition/data/projects
+      - ./services/ignition-red/config/resources/core:/usr/local/bin/ignition/data/config/resources/core
+      - ./services/ignition-red/config/resources/dev:/usr/local/bin/ignition/data/config/resources/dev
+      - ./shared/files/factory.json:/usr/local/bin/ignition/data/factory.json
+      - ./shared/config/resources/external:/usr/local/bin/ignition/data/config/resources/external
     environment:
       <<: *ignition-environment
     labels:
-      - traefik.hostname=ignition-green
+      - traefik.hostname=ignition-red
       - traefik.enable=true
     command: >
-      -n ignition-green
+      -n ignition-red
       -m 4096
       -h 80
       -s 443
-      -a ignition-green.localtest.me
+      -a ignition-red.localtest.me
       --
       gateway.useProxyForwardedHeader=true
       -Dignition.config.mode=${DEPLOYMENT_MODE:-dev}
@@ -94,7 +98,7 @@ services:
 
 volumes:
   ignition-blue-data:
-  ignition-green-data:
+  ignition-red-data:
 
 networks:
   proxy:
