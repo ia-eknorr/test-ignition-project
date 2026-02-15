@@ -1,6 +1,6 @@
 ---
 x-ignition-common: &ignition-common
-  image: &ignition-image inductiveautomation/ignition:8.3.2
+  image: &ignition-image inductiveautomation/ignition:8.3.3
   depends_on:
     db:
       condition: service_healthy
@@ -17,42 +17,65 @@ x-ignition-environment: &ignition-environment
 services:
   bootstrap:
     image: *ignition-image
-    user: root
     entrypoint: ["/bin/bash", "/docker-bootstrap.sh"]
-    environment:
-      GATEWAY_NAME: ${GATEWAY_NAME}
     volumes:
-      - ignition-data:/data
       - ./scripts/docker-bootstrap.sh:/docker-bootstrap.sh
+      # Ignition data volumes to be seeded
+      - ignition-blue-data:/seed/ignition-blue
+      - ignition-green-data:/seed/ignition-green
 
-  gateway:
+  ignition-blue:
     <<: [*ignition-common]
-    container_name: ${GATEWAY_NAME}
-    hostname: ${GATEWAY_NAME}
+    container_name: ignition-blue
+    hostname: ignition-blue
     volumes:
-      - ignition-data:/usr/local/bin/ignition/data
+      - ignition-blue-data:/usr/local/bin/ignition/data
       - ./services/ignition/projects:/usr/local/bin/ignition/data/projects
       - ./services/ignition/config/resources/core:/usr/local/bin/ignition/data/config/resources/core
       - ./services/ignition/config/resources/dev:/usr/local/bin/ignition/data/config/resources/dev
     environment:
       <<: *ignition-environment
     labels:
-      - traefik.hostname=${GATEWAY_NAME}
+      - traefik.hostname=ignition-blue
       - traefik.enable=true
     command: >
-      -n ${GATEWAY_NAME}
+      -n ignition-blue
       -m 4096
       -h 80
       -s 443
-      -a ${GATEWAY_NAME}.localtest.me
+      -a ignition-blue.localtest.me
+      --
+      gateway.useProxyForwardedHeader=true
+      -Dignition.config.mode=${DEPLOYMENT_MODE:-dev}
+
+  ignition-green:
+    <<: [*ignition-common]
+    container_name: ignition-green
+    hostname: ignition-green
+    volumes:
+      - ignition-green-data:/usr/local/bin/ignition/data
+      - ./services/ignition/projects:/usr/local/bin/ignition/data/projects
+      - ./services/ignition/config/resources/core:/usr/local/bin/ignition/data/config/resources/core
+      - ./services/ignition/config/resources/dev:/usr/local/bin/ignition/data/config/resources/dev
+    environment:
+      <<: *ignition-environment
+    labels:
+      - traefik.hostname=ignition-green
+      - traefik.enable=true
+    command: >
+      -n ignition-green
+      -m 4096
+      -h 80
+      -s 443
+      -a ignition-green.localtest.me
       --
       gateway.useProxyForwardedHeader=true
       -Dignition.config.mode=${DEPLOYMENT_MODE:-dev}
 
   db:
     image: postgres:18.1
-    hostname: db-${GATEWAY_NAME}
-    container_name: db-${GATEWAY_NAME}
+    hostname: db
+    container_name: db
     volumes:
       - ./services/db/init:/docker-entrypoint-initdb.d
     environment:
@@ -67,21 +90,11 @@ services:
     networks:
       proxy:
         aliases:
-          - db-${GATEWAY_NAME}
-
-  config-cleanup:
-    image: alpine/git:latest
-    restart: "no"
-    depends_on:
-      - gateway
-    volumes:
-      - .:/workspace
-      - ./scripts/docker-config-cleanup.sh:/docker-config-cleanup.sh
-    working_dir: /workspace
-    entrypoint: ["/bin/sh", "/docker-config-cleanup.sh"]
+          - db
 
 volumes:
-  ignition-data:
+  ignition-blue-data:
+  ignition-green-data:
 
 networks:
   proxy:
