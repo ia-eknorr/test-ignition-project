@@ -1,6 +1,6 @@
 {
   "profile": {
-    "secureChannelRequired": true,
+    "secureChannelRequired": false,
     "securityLevels": [
       {
         "children": [],
