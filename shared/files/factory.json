@@ -1,0 +1,18 @@
+{
+  "name": "Default Factory",
+  "timezone": "America/Denver",
+  "lines": [
+    {
+      "name": "Line 1",
+      "enabled": true
+    },
+    {
+      "name": "Line 2",
+      "enabled": true
+    }
+  ],
+  "shifts": [
+    {"name": "Day", "start": "06:00", "end": "18:00"},
+    {"name": "Night", "start": "18:00", "end": "06:00"}
+  ]
+}
