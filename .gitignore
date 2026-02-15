@@ -1,0 +1,14 @@
+# IDE and Editor files
+*.code-workspace
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store
+
+# Environment and secrets
+*.env
+
+# Project conversion and migration logs
+**/projects/conversion-report.txt
+**/.resources/
