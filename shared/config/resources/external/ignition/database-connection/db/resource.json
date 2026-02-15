@@ -3,7 +3,7 @@
   "description": "Database connection for Project Template",
   "version": 1,
   "restricted": false,
-  "overridable": true,
+  "overridable": false,
   "files": [
     "config.json"
   ],
